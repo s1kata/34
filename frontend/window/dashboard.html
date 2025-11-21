@@ -1,0 +1,186 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard - Travel Hub</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .user-info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .user-info h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        .info-item {
+            margin: 10px 0;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        .info-label {
+            font-weight: bold;
+            color: #555;
+        }
+        .logout-btn {
+            background: #dc3545;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .logout-btn:hover {
+            background: #c82333;
+        }
+        .back-btn {
+            background: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-left: 10px;
+        }
+        .back-btn:hover {
+            background: #0056b3;
+        }
+
+        /* Language toggle button */
+        .lang-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .lang-toggle:hover {
+            background: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Language toggle button -->
+<button id="lang-toggle" class="lang-toggle" onclick="toggleLanguage()">EN</button>
+
+<div class="container">
+        <div class="header">
+            <h1 id="dashboardTitle">Dashboard</h1>
+            <p id="welcomeMessage">Welcome to your Travel Hub dashboard!</p>
+        </div>
+
+        <div class="user-info">
+            <h3 id="userInfoTitle">User Information</h3>
+            <div class="info-item">
+                <span class="info-label" id="nameLabel">Name:</span> Guest
+            </div>
+            <div class="info-item">
+                <span class="info-label" id="emailLabel">Email:</span> guest@example.com
+            </div>
+            <div class="info-item">
+                <span class="info-label" id="statusLabel">Status:</span> Authorized
+            </div>
+        </div>
+
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="/backend/scripts/logout.php" class="logout-btn" id="logoutBtn">Logout</a>
+            <a href="../index.html" class="back-btn" id="backBtn">Back to Home</a>
+        </div>
+    </div>
+
+    <script>
+        // Translation object for dashboard page
+        const dashboardTranslations = {
+            ru: {
+                title: "Личный кабинет",
+                welcome: "Добро пожаловать в ваш личный кабинет Travel Hub!",
+                userInfo: "Информация о пользователе",
+                name: "Имя:",
+                email: "Email:",
+                status: "Статус:",
+                logout: "Выйти из аккаунта",
+                backHome: "Вернуться на главную"
+            },
+            en: {
+                title: "Dashboard",
+                welcome: "Welcome to your Travel Hub dashboard!",
+                userInfo: "User Information",
+                name: "Name:",
+                email: "Email:",
+                status: "Status:",
+                logout: "Logout",
+                backHome: "Back to Home"
+            }
+        };
+
+        // Language toggle function
+        function toggleLanguage() {
+            const currentLang = localStorage.getItem('language') || 'en';
+            const newLang = currentLang === 'en' ? 'ru' : 'en';
+            localStorage.setItem('language', newLang);
+            applyDashboardLanguage(newLang);
+            updateLangButton(newLang);
+        }
+
+        // Apply language to dashboard page
+        function applyDashboardLanguage(lang) {
+            const trans = dashboardTranslations[lang];
+
+            document.getElementById('dashboardTitle').textContent = trans.title;
+            document.getElementById('welcomeMessage').textContent = trans.welcome;
+            document.getElementById('userInfoTitle').textContent = trans.userInfo;
+            document.getElementById('nameLabel').textContent = trans.name;
+            document.getElementById('emailLabel').textContent = trans.email;
+            document.getElementById('statusLabel').textContent = trans.status;
+            document.getElementById('logoutBtn').textContent = trans.logout;
+            document.getElementById('backBtn').textContent = trans.backHome;
+        }
+
+        // Update language button
+        function updateLangButton(lang) {
+            const button = document.getElementById('lang-toggle');
+            if (button) {
+                button.textContent = lang.toUpperCase();
+            }
+        }
+
+        // Initialize language on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('language') || 'en';
+            applyDashboardLanguage(savedLang);
+            updateLangButton(savedLang);
+        });
+    </script>
+</body>
+</html>

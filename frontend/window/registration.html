@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Регистрация | Travel Hub</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&family=Open+Sans:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-body: #f4f9ff;
+      --accent-primary: #3ba3ff;
+      --accent-secondary: #7bc4ff;
+      --text-primary: #1f2a44;
+      --text-secondary: #4f5f78;
+      --border-soft: rgba(59, 163, 255, 0.18);
+      --shadow-soft: 0 20px 48px rgba(59, 163, 255, 0.18);
+    }
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background: linear-gradient(180deg, #f8fbff 0%, #eff5ff 45%, #fdfdff 100%);
+      color: var(--text-primary);
+    }
+    .heading-font { font-family: 'Montserrat', sans-serif; }
+    .floating-glow { position: absolute; border-radius: 999px; filter: blur(160px); opacity: 0.5; }
+    .error-message { color: #f87171; font-size: 0.85rem; margin-top: 4px; text-align: left; }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.3s ease-out;
+    }
+    .animate-scaleIn {
+      animation: scaleIn 0.3s ease-out;
+    }
+  </style>
+</head>
+<body class="min-h-screen text-slate-900 relative overflow-hidden">
+  <div class="floating-glow bg-sky-200 w-[520px] h-[520px] -top-28 left-1/2 -translate-x-1/2"></div>
+  <div class="floating-glow bg-sky-300 w-[460px] h-[460px] bottom-0 right-0"></div>
+
+  <!-- Header -->
+  <header class="bg-white/95 backdrop-blur-lg border-b border-sky-100 sticky top-0 z-50 shadow-sm">
+    <div class="mx-auto w-full max-w-[95vw] px-4 md:px-8 lg:px-16 py-4 flex justify-between items-center">
+      <div class="flex items-center gap-3">
+        <a href="/index.php" class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-gradient-to-r from-sky-300 via-sky-400 to-sky-500 flex items-center justify-center shadow-lg shadow-sky-200/60">
+            <i class="fas fa-plane text-white text-base"></i>
+          </div>
+          <span class="heading-font text-2xl font-bold text-sky-600 tracking-wide">Travel Hub</span>
+        </a>
+      </div>
+
+      <nav class="hidden md:flex items-center space-x-8">
+        <a href="/index.php" class="text-slate-700 font-medium hover:text-sky-500 transition">Главная</a>
+        <a href="/frontend/window/tours.php" class="text-slate-700 font-medium hover:text-sky-500 transition">Туры</a>
+        <a href="/frontend/window/services.php" class="text-slate-700 font-medium hover:text-sky-500 transition">Услуги</a>
+        <a href="/frontend/window/about.php" class="text-slate-700 font-medium hover:text-sky-500 transition">О нас</a>
+        <a href="/frontend/window/contacts.php" class="text-slate-700 font-medium hover:text-sky-500 transition">Контакты</a>
+      </nav>
+
+      <div class="flex items-center space-x-4">
+        <a href="/index.php" class="hidden md:block text-slate-600 hover:text-sky-500 transition text-sm">На главную</a>
+        <button id="mobile-menu-button" class="md:hidden text-slate-500">
+          <i class="fas fa-bars text-2xl"></i>
+        </button>
+      </div>
+    </div>
+    
+    <div id="mobile-menu" class="hidden md:hidden bg-white/95 border-t border-sky-100 py-4 px-4">
+      <div class="flex flex-col space-y-3">
+        <a href="/index.php" class="text-slate-700 font-medium hover:text-sky-500 transition">Главная</a>
+        <a href="/frontend/window/tours.php" class="text-slate-700 font-medium hover:text-sky-500 transition">Туры</a>
+        <a href="/frontend/window/services.php" class="text-slate-700 font-medium hover:text-sky-500 transition">Услуги</a>
+        <a href="/frontend/window/about.php" class="text-slate-700 font-medium hover:text-sky-500 transition">О нас</a>
+        <a href="/frontend/window/contacts.php" class="text-slate-700 font-medium hover:text-sky-500 transition">Контакты</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="relative z-10 flex items-center justify-center min-h-screen px-4 py-16">
+    <div class="max-w-6xl w-full grid lg:grid-cols-2 gap-10">
+      <div class="hidden lg:flex flex-col justify-center space-y-6 pr-6">
+        <span class="inline-flex items-center gap-3 text-xs uppercase tracking-[0.32em] text-sky-500">
+          <i class="fas fa-crown"></i> Travel Hub
+        </span>
+        <h1 class="heading-font text-4xl font-bold text-slate-900 leading-tight">Создайте аккаунт Travel Hub</h1>
+        <p class="text-slate-600">Получайте доступ к эксклюзивным турам, персональным предложениям и премиум-поддержке консьерж-службы.</p>
+      </div>
+
+      <div class="backdrop-blur-lg bg-white/90 border border-sky-100 rounded-2xl p-8 shadow-xl shadow-sky-200/60">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="heading-font text-2xl font-semibold text-slate-900" id="regTitle">Регистрация</h2>
+            <p class="text-sm text-slate-500">Заполните данные, чтобы продолжить.</p>
+          </div>
+          <a href="/index.php" class="text-xs uppercase tracking-[0.3em] text-sky-500 hover:text-sky-600 transition">На главную</a>
+        </div>
+
+        <!-- Модальное окно успешной регистрации -->
+        <div id="successModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm animate-fadeIn">
+          <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all animate-scaleIn">
+            <div class="text-center">
+              <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-emerald-100 mb-4">
+                <i class="fas fa-check-circle text-4xl text-emerald-500"></i>
+              </div>
+              <h3 class="heading-font text-2xl font-bold text-slate-900 mb-2">Регистрация прошла успешно!</h3>
+              <p class="text-slate-600 mb-6">Теперь вы можете войти в систему.</p>
+              <div class="flex items-center justify-center gap-2 text-sm text-slate-500 mb-4">
+                <span>Перенаправление на страницу входа через</span>
+                <span id="countdown" class="font-bold text-sky-500">3</span>
+                <span>сек...</span>
+              </div>
+              <a href="/frontend/window/login.html" class="inline-block w-full bg-gradient-to-r from-sky-300 via-sky-400 to-sky-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition">
+                Перейти к входу
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Модальное окно для дубликатов данных -->
+        <div id="duplicateModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm animate-fadeIn">
+          <div class="bg-white rounded-2xl shadow-2xl p-8 max-w-md w-full mx-4 transform transition-all animate-scaleIn">
+            <div class="text-center">
+              <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-red-100 mb-4">
+                <i class="fas fa-exclamation-triangle text-4xl text-red-500"></i>
+              </div>
+              <h3 class="heading-font text-2xl font-bold text-slate-900 mb-2">Данные уже существуют</h3>
+              <p id="duplicateMessage" class="text-slate-600 mb-6"></p>
+              <div class="flex items-center justify-center gap-2 text-sm text-slate-500 mb-4">
+                <span>Окно закроется через</span>
+                <span id="duplicateCountdown" class="font-bold text-red-500">20</span>
+                <span>сек...</span>
+              </div>
+              <button onclick="closeDuplicateModal()" class="inline-block w-full bg-gradient-to-r from-red-300 via-red-400 to-red-500 text-white px-6 py-3 rounded-xl font-semibold hover:shadow-lg transition">
+                Закрыть
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="successMessage" class="hidden mb-4 rounded-xl border border-emerald-300 bg-emerald-50 px-4 py-3 text-sm text-emerald-600 text-center"></div>
+
+        <form method="POST" action="/backend/scripts/process_registration.php" class="space-y-5" id="registrationForm">
+          <div>
+            <label for="name" class="block text-sm text-slate-600 mb-2">Имя</label>
+            <input type="text" id="name" name="name" placeholder="Имя" required class="w-full rounded-xl border border-sky-100 bg-white px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition" />
+            <div id="nameError" class="error-message"></div>
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm text-slate-600 mb-2">Email</label>
+            <input type="email" id="email" name="email" placeholder="Email" required class="w-full rounded-xl border border-sky-100 bg-white px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition" />
+            <div id="emailError" class="error-message"></div>
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm text-slate-600 mb-2">Пароль</label>
+            <input type="password" id="password" name="password" placeholder="Пароль" required class="w-full rounded-xl border border-sky-100 bg-white px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition" />
+            <div id="passwordError" class="error-message"></div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="phone" class="block text-sm text-slate-600 mb-2">Телефон</label>
+              <input type="tel" id="phone" name="phone" placeholder="Телефон" class="w-full rounded-xl border border-sky-100 bg-white px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition" />
+              <div id="phoneError" class="error-message"></div>
+            </div>
+            <div>
+              <label for="city" class="block text-sm text-slate-600 mb-2">Город</label>
+              <input type="text" id="city" name="city" placeholder="Город" class="w-full rounded-xl border border-sky-100 bg-white px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label for="age" class="block text-sm text-slate-600 mb-2">Возраст</label>
+              <input type="number" id="age" name="age" placeholder="Возраст" min="1" max="120" class="w-full rounded-xl border border-sky-100 bg-white px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition" />
+            </div>
+            <div>
+              <label for="gender" class="block text-sm text-slate-600 mb-2">Пол</label>
+              <select id="gender" name="gender" class="w-full rounded-xl border border-sky-100 bg-white px-4 py-3 text-slate-800 focus:outline-none focus:ring-2 focus:ring-sky-300 focus:border-sky-300 transition">
+                <option value="">Выберите пол</option>
+                <option value="male">Мужской</option>
+                <option value="female">Женский</option>
+                <option value="other">Другое</option>
+                <option value="prefer_not_to_say">Предпочитаю не указывать</option>
+              </select>
+            </div>
+          </div>
+
+          <button type="submit" name="submit" id="regButton" class="w-full heading-font uppercase tracking-[0.3em] text-xs bg-gradient-to-r from-sky-300 via-sky-400 to-sky-500 text-white py-3 rounded-xl shadow-lg shadow-sky-200/60 hover:shadow-sky-300/70 transition">
+            Регистрация
+          </button>
+
+          <p class="text-center text-sm text-slate-500" id="loginPrompt">У вас есть аккаунт? <a href="/frontend/window/login.html" class="text-sky-500 hover:text-sky-600 transition" id="loginLink">Войти</a></p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <script src="https://kit.fontawesome.com/6dc53f782f.js" crossorigin="anonymous"></script>
+  <script>
+    const regTranslations = {
+      ru: {
+        title: "Регистрация",
+        namePlaceholder: "Имя",
+        emailPlaceholder: "Email",
+        passwordPlaceholder: "Пароль",
+        phonePlaceholder: "Телефон",
+        cityPlaceholder: "Город",
+        agePlaceholder: "Возраст",
+        genderDefault: "Выберите пол",
+        genderMale: "Мужской",
+        genderFemale: "Женский",
+        genderOther: "Другое",
+        genderPrefer: "Предпочитаю не указывать",
+        registerButton: "Регистрация",
+        loginPrompt: "У вас есть аккаунт?",
+        loginLink: "Войти",
+        nameRequired: "Пожалуйста, введите имя.",
+        nameLength: "Имя не должно превышать 60 символов.",
+        nameInvalid: "Имя может содержать только буквы.",
+        emailRequired: "Пожалуйста, введите email.",
+        emailInvalid: "Пожалуйста, введите корректный email.",
+        passwordRequired: "Пожалуйста, введите пароль.",
+        passwordLength: "Пароль должен содержать не менее 12 символов."
+      },
+      en: {
+        title: "Registration",
+        namePlaceholder: "Name",
+        emailPlaceholder: "Email",
+        passwordPlaceholder: "Password",
+        phonePlaceholder: "Phone",
+        cityPlaceholder: "City",
+        agePlaceholder: "Age",
+        genderDefault: "Select Gender",
+        genderMale: "Male",
+        genderFemale: "Female",
+        genderOther: "Other",
+        genderPrefer: "Prefer not to say",
+        registerButton: "Register",
+        loginPrompt: "Have an account?",
+        loginLink: "Login",
+        nameRequired: "Please enter your name.",
+        nameLength: "Name should not exceed 60 characters.",
+        nameInvalid: "Name can only contain letters.",
+        emailRequired: "Please enter your email.",
+        emailInvalid: "Please enter a valid email.",
+        passwordRequired: "Please enter your password.",
+        passwordLength: "Password must be at least 12 characters long."
+      }
+    };
+
+    function toggleLanguage() {
+      const currentLang = localStorage.getItem('language') || 'ru';
+      const newLang = currentLang === 'ru' ? 'en' : 'ru';
+      localStorage.setItem('language', newLang);
+      applyRegLanguage(newLang);
+      updateLangButton(newLang);
+    }
+
+    function applyRegLanguage(lang) {
+      const trans = regTranslations[lang];
+      document.getElementById('regTitle').textContent = trans.title;
+      document.getElementById('name').placeholder = trans.namePlaceholder;
+      document.getElementById('email').placeholder = trans.emailPlaceholder;
+      document.getElementById('password').placeholder = trans.passwordPlaceholder;
+      document.getElementById('phone').placeholder = trans.phonePlaceholder;
+      document.getElementById('city').placeholder = trans.cityPlaceholder;
+      document.getElementById('age').placeholder = trans.agePlaceholder;
+      document.getElementById('regButton').textContent = trans.registerButton;
+      document.getElementById('loginPrompt').innerHTML = `${trans.loginPrompt} <a href="/frontend/window/login.html" class="text-sky-500 hover:text-sky-600 transition" id="loginLink">${trans.loginLink}</a>`;
+
+      const genderSelect = document.getElementById('gender');
+      genderSelect.options[0].text = trans.genderDefault;
+      genderSelect.options[1].text = trans.genderMale;
+      genderSelect.options[2].text = trans.genderFemale;
+      genderSelect.options[3].text = trans.genderOther;
+      genderSelect.options[4].text = trans.genderPrefer;
+
+      window.currentRegValidationMessages = trans;
+    }
+
+    function updateLangButton(lang) {
+      const button = document.getElementById('lang-toggle');
+      if (button) button.textContent = lang.toUpperCase();
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const form = document.getElementById('registrationForm');
+      const nameInput = document.getElementById('name');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const nameError = document.getElementById('nameError');
+      const emailError = document.getElementById('emailError');
+      const passwordError = document.getElementById('passwordError');
+      const successMessage = document.getElementById('successMessage');
+
+      const savedLang = localStorage.getItem('language') || 'ru';
+      applyRegLanguage(savedLang);
+
+      // Проверка успешной регистрации
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has('success') && urlParams.get('success') === '1') {
+        const successModal = document.getElementById('successModal');
+        const countdownEl = document.getElementById('countdown');
+        let countdown = 3;
+        
+        // Показываем модальное окно
+        successModal.classList.remove('hidden');
+        
+        // Обновляем счетчик
+        const countdownInterval = setInterval(() => {
+          countdown--;
+          if (countdownEl) {
+            countdownEl.textContent = countdown;
+          }
+          if (countdown <= 0) {
+            clearInterval(countdownInterval);
+            // Перенаправляем на страницу входа
+            window.location.href = '/frontend/window/login.html';
+          }
+        }, 1000);
+        
+        // Очищаем параметр из URL
+        window.history.replaceState({}, document.title, window.location.pathname);
+      }
+      
+      // Обработка ошибок
+      if (urlParams.has('data')) {
+        try {
+          const payload = JSON.parse(decodeURIComponent(urlParams.get('data')));
+          if (payload.errors) {
+            if (payload.errors.name) nameError.textContent = payload.errors.name;
+            if (payload.errors.email) emailError.textContent = payload.errors.email;
+            if (payload.errors.password) passwordError.textContent = payload.errors.password;
+            if (payload.errors.phone) {
+              const phoneError = document.getElementById('phoneError');
+              if (phoneError) phoneError.textContent = payload.errors.phone;
+            }
+            if (payload.errors.database) nameError.textContent = payload.errors.database;
+            
+            // Показываем модальное окно для дубликатов
+            if (payload.errors.duplicate) {
+              showDuplicateModal(payload.errors);
+            }
+          }
+          if (payload.name) nameInput.value = payload.name;
+          if (payload.email) emailInput.value = payload.email;
+          if (payload.phone) document.getElementById('phone').value = payload.phone;
+          if (payload.city) document.getElementById('city').value = payload.city;
+          if (payload.age) document.getElementById('age').value = payload.age;
+          if (payload.gender) document.getElementById('gender').value = payload.gender;
+        } catch (error) {
+          console.error('Не удалось распарсить данные регистрации', error);
+        }
+      }
+
+      // Функция для показа модального окна дубликатов
+      function showDuplicateModal(errors) {
+        const duplicateModal = document.getElementById('duplicateModal');
+        const duplicateMessage = document.getElementById('duplicateMessage');
+        const duplicateCountdown = document.getElementById('duplicateCountdown');
+        
+        // Формируем сообщение
+        const messages = [];
+        if (errors.email) messages.push('Email уже зарегистрирован');
+        if (errors.phone) messages.push('Телефон уже зарегистрирован');
+        
+        duplicateMessage.textContent = messages.join(' и ') + '. Пожалуйста, используйте другие данные.';
+        
+        // Показываем модальное окно
+        duplicateModal.classList.remove('hidden');
+        
+        // Автоматическое закрытие через 20 секунд
+        let countdown = 20;
+        duplicateCountdown.textContent = countdown;
+        
+        const countdownInterval = setInterval(() => {
+          countdown--;
+          duplicateCountdown.textContent = countdown;
+          if (countdown <= 0) {
+            clearInterval(countdownInterval);
+            closeDuplicateModal();
+          }
+        }, 1000);
+        
+        // Сохраняем interval для возможности закрытия вручную
+        duplicateModal.dataset.interval = countdownInterval;
+      }
+
+      // Функция для закрытия модального окна дубликатов
+      function closeDuplicateModal() {
+        const duplicateModal = document.getElementById('duplicateModal');
+        if (duplicateModal.dataset.interval) {
+          clearInterval(parseInt(duplicateModal.dataset.interval));
+        }
+        duplicateModal.classList.add('hidden');
+      }
+      
+      // Делаем функцию доступной глобально
+      window.closeDuplicateModal = closeDuplicateModal;
+
+      form.addEventListener('submit', (event) => {
+        nameError.textContent = '';
+        emailError.textContent = '';
+        passwordError.textContent = '';
+        successMessage.classList.add('hidden');
+
+        let isValid = true;
+        const nameValue = nameInput.value.trim();
+        if (nameValue === '') {
+          nameError.textContent = window.currentRegValidationMessages.nameRequired;
+          isValid = false;
+        } else if (nameValue.length > 60) {
+          nameError.textContent = window.currentRegValidationMessages.nameLength;
+          isValid = false;
+        } else if (!/^[\p{L}\s'-]+$/u.test(nameValue)) {
+          nameError.textContent = window.currentRegValidationMessages.nameInvalid;
+          isValid = false;
+        }
+
+        const emailValue = emailInput.value.trim();
+        if (emailValue === '') {
+          emailError.textContent = window.currentRegValidationMessages.emailRequired;
+          isValid = false;
+        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailValue)) {
+          emailError.textContent = window.currentRegValidationMessages.emailInvalid;
+          isValid = false;
+        }
+
+        const passwordValue = passwordInput.value.trim();
+        if (passwordValue === '') {
+          passwordError.textContent = window.currentRegValidationMessages.passwordRequired;
+          isValid = false;
+        } else if (passwordValue.length < 12) {
+          passwordError.textContent = window.currentRegValidationMessages.passwordLength;
+          isValid = false;
+        }
+
+        if (!isValid) {
+          event.preventDefault();
+        }
+      });
+
+      // Mobile menu toggle
+      document.getElementById('mobile-menu-button').addEventListener('click', function() {
+        const menu = document.getElementById('mobile-menu');
+        menu.classList.toggle('hidden');
+      });
+    });
+  </script>
+
+  <!-- Footer -->
+  <footer class="bg-white border-t border-sky-100 py-10 mt-20">
+    <div class="container mx-auto px-6">
+      <div class="flex flex-col md:flex-row justify-between gap-8">
+        <div class="space-y-3 max-w-sm">
+          <span class="heading-font text-2xl font-bold text-sky-600">Travel Hub</span>
+          <p class="text-slate-600">Мы создаём путешествия класса люкс и обеспечиваем сервис, который остаётся в памяти надолго.</p>
+          <div class="flex gap-3">
+            <a href="https://t.me/TravelHub" class="w-9 h-9 rounded-full border border-sky-200 flex items-center justify-center text-slate-500 hover:bg-sky-100 hover:text-sky-500 transition"><i class="fab fa-telegram"></i></a>
+            <a href="#" class="w-9 h-9 rounded-full border border-sky-200 flex items-center justify-center text-slate-500 hover:bg-sky-100 hover:text-sky-500 transition"><i class="fab fa-instagram"></i></a>
+            <a href="#" class="w-9 h-9 rounded-full border border-sky-200 flex items-center justify-center text-slate-500 hover:bg-sky-100 hover:text-sky-500 transition"><i class="fab fa-whatsapp"></i></a>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-sm text-slate-600">
+          <div>
+            <h3 class="font-semibold text-slate-800 mb-3">Компания</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="hover:text-sky-500">О нас</a></li>
+              <li><a href="#" class="hover:text-sky-500">Команда</a></li>
+              <li><a href="#" class="hover:text-sky-500">Партнёры</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-slate-800 mb-3">Туры</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="hover:text-sky-500">Премиум</a></li>
+              <li><a href="#" class="hover:text-sky-500">Семейные</a></li>
+              <li><a href="#" class="hover:text-sky-500">Медовый месяц</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-slate-800 mb-3">Консьерж</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="hover:text-sky-500">Привилегии</a></li>
+              <li><a href="#" class="hover:text-sky-500">Кейсы</a></li>
+              <li><a href="#" class="hover:text-sky-500">FAQ</a></li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="font-semibold text-slate-800 mb-3">Контакты</h3>
+            <ul class="space-y-2">
+              <li><a href="#" class="hover:text-sky-500">Заявка</a></li>
+              <li><a href="#" class="hover:text-sky-500">Telegram</a></li>
+              <li><a href="#" class="hover:text-sky-500">WhatsApp</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="mt-10 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-slate-500">
+        <p>© 2024 Travel Hub. Все права защищены.</p>
+        <div class="flex gap-4">
+          <a href="#" class="hover:text-sky-500">Политика конфиденциальности</a>
+          <a href="#" class="hover:text-sky-500">Условия использования</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Профиль пользователя</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+        .profile-info {
+            background-color: #f8f9fa;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 3px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Профиль пользователя</h1>
+
+    <div class="profile-info">
+        <h2>Личная информация</h2>
+        <p><strong>Имя:</strong> <span id="user-name">Загрузка...</span></p>
+        <p><strong>Email:</strong> <span id="user-email">Загрузка...</span></p>
+        <p><strong>Город:</strong> <span id="user-city">Загрузка...</span></p>
+        <p><strong>Возраст:</strong> <span id="user-age">Загрузка...</span></p>
+    </div>
+
+    <div>
+        <a href="dashboard.html" class="btn">Панель управления</a>
+        <a href="logout.html" class="btn">Выход</a>
+    </div>
+
+    <script>
+        // Загрузка данных профиля через AJAX
+        fetch('profile.php')
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('user-name').textContent = data.user.name;
+                    document.getElementById('user-email').textContent = data.user.email;
+                    document.getElementById('user-city').textContent = data.user.city || 'Не указан';
+                    document.getElementById('user-age').textContent = data.user.age || 'Не указан';
+                } else {
+                    alert('Ошибка загрузки профиля');
+                }
+            })
+            .catch(error => {
+                console.error('Ошибка:', error);
+            });
+    </script>
+</body>
+</html>
